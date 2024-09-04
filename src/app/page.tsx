@@ -26,6 +26,22 @@ export default function Home() {
               <td className="border p-2">{i + 1}</td>
               <td className="border p-2">{file}</td>
               <td className="border p-2">
+                <div className="flex gap-1">
+                  <a
+                    title="Download"
+                    className="bg-purple-600 hover:bg-purple-800 transition ease-out duration-300 text-white rounded-full size-7 shadow flex justify-center items-center"
+                    download={file}
+                    href={`/downloads/${file}`}
+                  >
+                    <i className="fas fa-arrow-down" />
+                  </a>
+                  <button
+                    title="Delete"
+                    className="bg-red-600 hover:bg-red-800 transition ease-out duration-300 text-white rounded-full size-7 shadow"
+                  >
+                    <i className="fas fa-trash" />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
