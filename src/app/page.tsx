@@ -2,13 +2,18 @@ import Send from "./send/send";
 import fs from "fs";
 import path from "path";
 import Delete from "./delete/delete";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Share Files",
+};
 
 export default function Home() {
   const files = fs.readdirSync(path.join(process.cwd(), "uploads"));
 
   return (
     <main className="p-5 container mx-auto grid gap-5">
-      <h1 className="text-3xl text-center">File Sharing App</h1>
+      <h1 className="text-3xl text-center">Share Files</h1>
       <div className="flex justify-end">
         <Send />
       </div>
