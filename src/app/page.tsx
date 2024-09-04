@@ -12,36 +12,40 @@ export default function Home() {
       <div className="flex justify-end">
         <Send />
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th className="border p-2 w-0">#</th>
-            <th className="border p-2">Name</th>
-            <th className="border p-2 w-0">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {files.map((file, i) => (
-            <tr key={file}>
-              <td className="border p-2">{i + 1}</td>
-              <td className="border p-2">{file}</td>
-              <td className="border p-2">
-                <div className="flex gap-1">
-                  <a
-                    title="Download"
-                    className="bg-purple-600 hover:bg-purple-800 transition ease-out duration-300 text-white rounded-full size-7 shadow flex justify-center items-center"
-                    download={file}
-                    href={`/downloads/${file}`}
-                  >
-                    <i className="fas fa-arrow-down" />
-                  </a>
-                  <Delete file={file} />
-                </div>
-              </td>
+      {files.length > 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th className="border p-2 w-0">#</th>
+              <th className="border p-2">Name</th>
+              <th className="border p-2 w-0">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {files.map((file, i) => (
+              <tr key={file}>
+                <td className="border p-2">{i + 1}</td>
+                <td className="border p-2">{file}</td>
+                <td className="border p-2">
+                  <div className="flex gap-1">
+                    <a
+                      title="Download"
+                      className="bg-purple-600 hover:bg-purple-800 transition ease-out duration-300 text-white rounded-full size-7 shadow flex justify-center items-center"
+                      download={file}
+                      href={`/downloads/${file}`}
+                    >
+                      <i className="fas fa-arrow-down" />
+                    </a>
+                    <Delete file={file} />
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p className="text-center">No files available send one.</p>
+      )}
     </main>
   );
 }
