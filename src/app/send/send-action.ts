@@ -1,6 +1,7 @@
 "use server";
 
 import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { revalidatePath } from "next/cache";
 import { join } from "path";
 
 export default async function submitAction(
@@ -17,6 +18,8 @@ export default async function submitAction(
     const buffer = Buffer.from(bytes);
     writeFileSync(join(process.cwd(), "uploads", file.name), buffer);
   }
+
+  revalidatePath("/");
 
   return {
     success: true,
