@@ -1,12 +1,14 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import sendAction from "./send-action";
 
 const buttonClass = "bg-purple-600 px-4 py-1 text-white rounded cursor-pointer";
 
 export default function Send() {
   const [loading, setLoading] = useState(false);
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   async function send(e: ChangeEvent<HTMLInputElement>) {
     const fileList = e.target.files;
@@ -27,15 +29,19 @@ export default function Send() {
 
     if (!r.success) {
       alert(r.message);
+    } else {
+      formRef.current?.reset();
     }
 
     setLoading(false);
   }
 
   return (
-    <label className={buttonClass}>
-      {loading ? <div className="bg-gray-400 h-7 w-10 rounded" /> : <>Send</>}
-      <input className="hidden" type="file" onChange={send} multiple={true} />
-    </label>
+    <form ref={formRef}>
+      <label className={buttonClass}>
+        {loading ? <div className="bg-gray-400 h-7 w-10 rounded" /> : <>Send</>}
+        <input className="hidden" type="file" onChange={send} multiple={true} />
+      </label>
+    </form>
   );
 }
