@@ -5,7 +5,6 @@ import Delete from "./delete/delete";
 
 export default function Home() {
   const files = fs.readdirSync(path.join(process.cwd(), "uploads"));
-  console.log(files);
 
   return (
     <main className="p-5 container mx-auto grid gap-5">
