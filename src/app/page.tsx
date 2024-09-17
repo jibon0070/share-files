@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const files = fs.readdirSync(path.join(process.cwd(), "uploads"));
+  const files = !fs.existsSync(path.join(process.cwd(), "uploads"))
+    ? []
+    : fs.readdirSync(path.join(process.cwd(), "uploads"));
 
   return (
     <main className="p-5 container mx-auto grid gap-5">
