@@ -56,7 +56,7 @@ export default function Send() {
         </div>
       )}
       <label className={buttonClass}>
-        {loading ? <div className="bg-gray-400 h-7 w-10 rounded" /> : <>Send</>}
+        Send
         <input className="hidden" type="file" onChange={send} multiple={true} />
       </label>
     </form>
