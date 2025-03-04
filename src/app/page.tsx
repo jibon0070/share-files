@@ -11,7 +11,23 @@ export const metadata: Metadata = {
 export default function Home() {
   const folderPath = path.join(process.cwd(), "storage", "uploads");
 
-  const files = !fs.existsSync(folderPath) ? [] : fs.readdirSync(folderPath);
+  const files: { name: string; size: string }[] = !fs.existsSync(folderPath)
+    ? []
+    : fs.readdirSync(folderPath).map((name) => {
+        const fileStat = fs.statSync(path.join(folderPath, name));
+
+        const formater = new Intl.NumberFormat("en-US", {
+          notation: "compact",
+          unitDisplay: "narrow",
+        });
+
+        console.log(fileStat);
+
+        return {
+          name,
+          size: formater.format(fileStat.size).replace(/B$/, "G") + "B",
+        };
+      });
 
   return (
     <main className="p-5 container mx-auto grid gap-5">
