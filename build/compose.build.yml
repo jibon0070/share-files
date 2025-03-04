@@ -1,0 +1,6 @@
+services:
+  web-prod:
+    image: share-files/prod
+    build:
+      context: ../
+      dockerfile: Dockerfile.prod

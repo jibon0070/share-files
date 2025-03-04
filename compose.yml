@@ -1,6 +1,6 @@
 services:
-  app:
-    container_name: app
+  web:
+    container_name: share-files-dev
     build:
       context: .
       dockerfile: Dockerfile.dev
