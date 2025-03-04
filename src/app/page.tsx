@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const folderPath = path.join(process.cwd(), "uploads");
+  const folderPath = path.join(process.cwd(), "storage", "uploads");
 
   const files = !fs.existsSync(folderPath) ? [] : fs.readdirSync(folderPath);
 
