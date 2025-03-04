@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 export default async function deleteAction(
   file: string,
 ): Promise<{ success: true } | { success: false; message: string }> {
-  const filePath = path.join(process.cwd(), "uploads", file);
+  const filePath = path.join(process.cwd(), "storage", "uploads", file);
   if (!fs.existsSync(filePath)) {
     return { success: false, message: "File not found" };
   }
