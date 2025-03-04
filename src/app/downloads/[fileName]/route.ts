@@ -6,7 +6,12 @@ export async function GET(
   _: NextRequest,
   { params }: { params: { fileName: string } },
 ) {
-  const filePath = path.join(process.cwd(), "uploads", params.fileName);
+  const filePath = path.join(
+    process.cwd(),
+    "storage",
+    "uploads",
+    params.fileName,
+  );
   if (!fs.existsSync(filePath)) {
     return new Response(null, { status: 404 });
   }
