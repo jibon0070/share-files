@@ -1,25 +1,31 @@
 "use client";
 
-import { useState } from "react";
 import deleteAction from "./delete-action";
+import { useMutation } from "@tanstack/react-query";
 
-export default function Delete({ file }: { file: string }) {
-  const [loading, setLoading] = useState(false);
+function useEngine(fileName: string) {
+  const deleteMutation = useMutation({
+    mutationFn: deleteAction,
+    onSuccess: (r) => {
+      if (!r.success) {
+        alert(r.message);
+      }
+    },
+  });
 
   async function deleteFile() {
-    if (loading) {
+    if (deleteMutation.isPending) {
       return;
     }
-    setLoading(true);
 
-    const r = await deleteAction(file);
-    if (!r.success) {
-      alert(r.message);
-    }
-
-    setLoading(false);
+    deleteMutation.mutate(fileName);
   }
 
+  return { deleteFile, loading: deleteMutation.isPending };
+}
+
+export default function Delete({ file }: { file: string }) {
+  const { deleteFile, loading } = useEngine(file);
   return (
     <button
       title="Delete"
