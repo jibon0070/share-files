@@ -1,6 +1,6 @@
 "use server";
 
-import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync } from "fs";
 import { revalidatePath } from "next/cache";
 import path from "path";
 import fs from "fs";
@@ -38,7 +38,10 @@ async function handleFile(file: File, increament?: number) {
   if (fs.existsSync(filePath)) {
     return await handleFile(file, increament ? increament + 1 : 1);
   }
+
   const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-  writeFileSync(filePath, buffer);
+
+  const arrayBufferView = new DataView(bytes);
+
+  fs.writeFileSync(filePath, arrayBufferView);
 }
