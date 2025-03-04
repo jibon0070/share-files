@@ -6,7 +6,7 @@ import axios from "axios";
 
 const buttonClass = "bg-purple-600 px-4 py-1 text-white rounded cursor-pointer";
 
-export default function Send() {
+function useEngine() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -48,6 +48,11 @@ export default function Send() {
     setLoading(false);
   }
 
+  return { formRef, progress, send };
+}
+
+export default function Send() {
+  const { formRef, progress, send } = useEngine();
   return (
     <form ref={formRef}>
       {!!progress && (
