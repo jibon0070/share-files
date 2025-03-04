@@ -3,49 +3,50 @@
 import { ChangeEvent, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 
 const buttonClass = "bg-purple-600 px-4 py-1 text-white rounded cursor-pointer";
 
 function useEngine() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const formRef = useRef<HTMLFormElement>(null);
 
+  const sendMutation = useMutation({
+    mutationFn: async (fileList: FileList) => {
+      const formData = new FormData();
+      for (let i = 0; i < fileList.length; i++) {
+        const file = fileList.item(i);
+        if (!file) continue;
+        formData.append(`file-${i}`, file, file.name);
+      }
+
+      const r = await axios.post("/send", formData, {
+        onUploadProgress: (event_1) => {
+          setProgress((event_1.progress || 0) * 100);
+        },
+      });
+      return r.data;
+    },
+    onSuccess: (r) => {
+      if (!r.success) {
+        alert(r.message);
+      } else {
+        formRef.current?.reset();
+        router.refresh();
+      }
+      setProgress(0);
+    },
+  });
+
   async function send(e: ChangeEvent<HTMLInputElement>) {
     const fileList = e.target.files;
-    if (!fileList || fileList.length <= 0 || loading) {
+    if (!fileList || fileList.length <= 0 || sendMutation.isPending) {
       return;
     }
 
-    setLoading(true);
-
-    const formData = new FormData();
-    for (let i = 0; i < fileList.length; i++) {
-      const file = fileList.item(i);
-      if (!file) continue;
-      formData.append(`file-${i}`, file, file.name);
-    }
-
-    const r = await axios
-      .post("/send", formData, {
-        onUploadProgress: (event) => {
-          setProgress((event.progress || 0) * 100);
-        },
-      })
-      .then((r) => r.data);
-
-    setProgress(0);
-
-    if (!r.success) {
-      alert(r.message);
-    } else {
-      formRef.current?.reset();
-      router.refresh();
-    }
-
-    setLoading(false);
+    sendMutation.mutate(fileList);
   }
 
   return { formRef, progress, send };
