@@ -41,14 +41,16 @@ export default function Home() {
             <tr>
               <th className="border p-2 w-0">#</th>
               <th className="border p-2">Name</th>
+              <th className="border p-2 w-0">Size</th>
               <th className="border p-2 w-0">Actions</th>
             </tr>
           </thead>
           <tbody>
             {files.map((file, i) => (
-              <tr key={file}>
+              <tr key={file.name}>
                 <td className="border p-2">{i + 1}</td>
-                <td className="border p-2">{file}</td>
+                <td className="border p-2">{file.name}</td>
+                <td className="border p-2">{file.size}</td>
                 <td className="border p-2">
                   <div className="flex gap-1">
                     <a
@@ -59,7 +61,7 @@ export default function Home() {
                     >
                       <i className="fas fa-arrow-down" />
                     </a>
-                    <Delete file={file} />
+                    <Delete file={file.name} />
                   </div>
                 </td>
               </tr>
