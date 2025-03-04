@@ -21,8 +21,6 @@ export default function Home() {
           unitDisplay: "narrow",
         });
 
-        console.log(fileStat);
-
         return {
           name,
           size: formater.format(fileStat.size).replace(/B$/, "G") + "B",
