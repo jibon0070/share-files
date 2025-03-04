@@ -5,11 +5,13 @@ import { revalidatePath } from "next/cache";
 import path from "path";
 import fs from "fs";
 
+const folderPath = path.join(process.cwd(), "storage", "uploads");
+
 export default async function submitAction(
   data: FormData,
 ): Promise<{ success: true } | { success: false; message: string }> {
-  if (!existsSync(path.join(process.cwd(), "uploads"))) {
-    mkdirSync(path.join(process.cwd(), "uploads"));
+  if (!existsSync(folderPath)) {
+    mkdirSync(folderPath, { recursive: true });
   }
 
   // @ts-ignore
@@ -31,7 +33,7 @@ async function handleFile(file: File, increament?: number) {
     fileName = `${path.parse(fileName).name} (${increament})${path.parse(fileName).ext}`;
   }
 
-  const filePath = path.join(process.cwd(), "uploads", fileName);
+  const filePath = path.join(folderPath, fileName);
 
   if (fs.existsSync(filePath)) {
     return await handleFile(file, increament ? increament + 1 : 1);
