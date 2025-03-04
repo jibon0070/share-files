@@ -1,8 +1,9 @@
 services:
   web-prod:
+    restart: always
     image: share-files/prod
     container_name: share-files-prod
     ports:
       - 8080:3000
     volumes:
-      - ./uploads:/app/uploads
+      - ./storage:/app/storage
