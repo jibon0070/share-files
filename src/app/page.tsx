@@ -54,8 +54,8 @@ export default function Home() {
                     <a
                       title="Download"
                       className="bg-purple-600 hover:bg-purple-800 transition ease-out duration-300 text-white rounded-full size-7 shadow flex justify-center items-center"
-                      download={file}
-                      href={`/downloads/${file}`}
+                      download={file.name}
+                      href={`/downloads/${file.name}`}
                     >
                       <i className="fas fa-arrow-down" />
                     </a>
