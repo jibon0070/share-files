@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 
-const buttonClass = "bg-purple-600 px-4 py-1 text-white rounded cursor-pointer";
+const buttonClass =
+  "bg-purple-600 px-4 py-1 text-white rounded cursor-pointer inline-block";
 
 const byteFormatter = new Intl.NumberFormat("en-US", {
   notation: "compact",
