@@ -19,6 +19,7 @@ export default function Home() {
         const formater = new Intl.NumberFormat("en-US", {
           notation: "compact",
           unitDisplay: "narrow",
+          unit: "byte",
         });
 
         return {
