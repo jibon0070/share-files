@@ -16,5 +16,11 @@ export async function GET(
     return new Response(null, { status: 404 });
   }
   const file = fs.readFileSync(filePath);
-  return new Response(file);
+  return new Response(file, {
+    headers: {
+      "Content-Type": "application/octet-stream",
+      "Content-Disposition": `attachment; filename="${params.fileName}"`,
+      "Content-Length": file.byteLength.toString(),
+    },
+  });
 }
