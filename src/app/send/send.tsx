@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
@@ -56,15 +56,41 @@ export default function Send() {
   const { formRef, progress, send } = useEngine();
   return (
     <form ref={formRef}>
-      {!!progress && (
-        <div className="w-screen h-screen fixed top-0 left-0 bg-white flex justify-center items-center">
-          <progress max={100} value={progress} />
-        </div>
-      )}
+      {!!progress && <Loading progress={progress} />}
       <label className={buttonClass}>
         Send
         <input className="hidden" type="file" onChange={send} multiple={true} />
       </label>
     </form>
+  );
+}
+
+function Loading({ progress }: { progress: number }) {
+  const ref = useCallback(
+    (canvas: HTMLCanvasElement) => {
+      if (canvas) {
+        canvas.height = 100;
+        canvas.width = 100;
+        const ctx = canvas.getContext("2d")!;
+
+        ctx.font = "16px serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(`${progress.toFixed(2)}%`, 50, 50);
+
+        ctx.beginPath();
+        ctx.lineWidth = 5;
+        ctx.lineCap = "round";
+        ctx.arc(50, 50, 44, 0, ((2 * Math.PI) / 100) * progress);
+        ctx.stroke();
+      }
+    },
+    [progress],
+  );
+
+  return (
+    <div className="w-screen h-screen absolute top-0 left-0 bg-white flex items-center justify-center">
+      <canvas ref={ref} />
+    </div>
   );
 }
