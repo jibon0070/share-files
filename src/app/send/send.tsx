@@ -23,8 +23,8 @@ function useEngine() {
       }
 
       const r = await axios.post("/send", formData, {
-        onUploadProgress: (event_1) => {
-          setProgress((event_1.progress || 0) * 100);
+        onUploadProgress: (event) => {
+          setProgress((event.progress || 0) * 100);
         },
       });
       return r.data;
