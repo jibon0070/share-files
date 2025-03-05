@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import Delete from "./delete/delete";
 import { Metadata } from "next";
+import DeleteAll from "./delete-all/client";
 
 export const metadata: Metadata = {
   title: "Share Files",
@@ -31,8 +32,9 @@ export default function Home() {
   return (
     <main className="p-5 container mx-auto grid gap-5">
       <h1 className="text-3xl text-center">Share Files</h1>
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
         <Send />
+        {!!files.length && <DeleteAll />}
       </div>
       {files.length > 0 ? (
         <table>
